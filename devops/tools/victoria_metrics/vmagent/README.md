@@ -33,3 +33,53 @@ apiserver_request_duration_seconds_bucket{component="apiserver",dry_run="",group
 apiserver_request_duration_seconds_bucket{component="apiserver",dry_run="",group="operator.victoriametrics.com",resource="vmstaticscrapes",scope="cluster",subresource="",verb="WATCH",version="v1beta1",le="1"} 0
 
 ```
+
+### Monitor ETCD
+#### Manually get metrics
+
+```bash
+curl --cacert /etc/ssl/etcd/ssl/ca.pem  --cert /etc/ssl/etcd/ssl/cert.pem --key /etc/ssl/etcd/ssl/key.pem https://<ETCD_CLUSTER_MASTER_IP>:2379/metrics 
+```
+
+#### Scrape using VMAgent
+
+To extract ETCD metrics by VMAgent, you should create a secret from these ssl certs manually or via a OS CronJob!
+
+```bash
+kubectl create secret generic etcd-certs -n vmagent --save-config --dry-run=client --from-file=/etc/ssl/etcd/ssl -o yaml |  kubectl apply -f -
+```
+
+Then use this secret in a vm static scraper:
+
+```bash
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMStaticScrape
+metadata:
+  name: '{{ .Values.environment }}-etcd'
+  labels:
+    environment: '{{ .Values.environment }}'
+spec:
+  jobName: '{{ .Values.environment }}-etcd'
+  targetEndpoints:
+    - targets:
+        - <ETCD_CLUSTER_MASTER_1_IP>:2379
+        - <ETCD_CLUSTER_MASTER_2_IP>:2379
+      path: /metrics
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: false
+        ca:
+          secret: # can reference the secret directly instead of needing to add it somewhere else
+            name: etcd-certs
+            key: ca.pem
+        cert:
+          secret:
+            name: etcd-certs
+            key: cert.pem
+        keySecret:
+          name: etcd-certs
+          key: key.pem
+      bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+```
+
+Just this!
