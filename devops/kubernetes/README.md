@@ -23,3 +23,18 @@ Edit file `ns.json` and remove Finalizer section and then:
 ```bash
 kubectl replace --raw "/api/v1/namespaces/<NAMESPACE>/finalize" -f ./ns.json
 ```
+
+#### Patch Error WebHook
+
+Get WebHook names:
+
+```bash
+kubectl get validatingwebhookconfigurations
+kubectl get mutatingwebhookconfigurations
+```
+
+Delete it but `carefully`!!!
+
+```bash
+kubectl delete validatingwebhookconfiguration <webhook-name>
+```
