@@ -12,7 +12,10 @@ To create the smallest standard ZIP file that 7-Zip can create, try:
 ```
 Otherwise if you don't care about the ZIP standard, use the following ultra settings:
 
+```bash
 7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on archive.7z dir1
+```
+
 Which are:
 
 ```
