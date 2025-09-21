@@ -21,6 +21,11 @@ rsync  -azhvPW --inplace  --progress dir1 dir2
 rsync -e "ssh -p 22 -o StrictHostKeyChecking=no -o ServerAliveInterval=30" --timeout=48000 -azhvPW --inplace  --progress dir1 dir2
 ```
 
+##### Example
+```bash
+rsync -e "ssh -p 22 -o StrictHostKeyChecking=no -o ServerAliveInterval=30" --timeout=48000  --exclude=/tools/.git -azhvPW --inplace  --progress root@<Remote_IP>:/root/projects/tools /root/projects/
+```
+
 
 ### Force rsync not see on timestamp but lookup only file sizes
 ```bash
