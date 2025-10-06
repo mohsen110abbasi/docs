@@ -1,6 +1,6 @@
 ### Rename a Branch
 
-####### Branches:
+###### Branches
 ```
 * master
   remotes/origin/HEAD -> origin/master
@@ -13,7 +13,7 @@
 git branch -m master main
 ```
 
-####### Branches
+###### Branches
 ```
 * main
   remotes/origin/HEAD -> origin/master
@@ -27,7 +27,7 @@ Remotely Create new branch:
 git push origin --set-upstream main
 ```
 
-####### Branches
+###### Branches
 ```
 * main
   remotes/origin/HEAD -> origin/master
@@ -41,7 +41,7 @@ Delete old remote one!
 git push origin --delete master
 ```
 
-####### Branches:
+###### Branches:
 ```
 * main
   remotes/origin/main
