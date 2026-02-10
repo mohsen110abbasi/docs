@@ -1,3 +1,11 @@
+### ISSUE
+#### mdadm: No arrays found ...
+mdadm: No arrays found in config file or automatically
+
+```bash
+update-initramfs -u
+```
+
 ### Schedule Shutdown
 
 #### Shutdown after `n` minutes
